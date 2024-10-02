@@ -21,12 +21,13 @@ RUN echo "deb http://ftp.debian.org/debian buster-backports main" >> /etc/apt/so
 # Install OpenLDAP, ldap-utils and ssl-tools from the (backported) baseimage and clean apt-get files
 # sources: https://github.com/osixia/docker-light-baseimage/blob/master/image/tool/add-service-available
 #          https://github.com/osixia/docker-light-baseimage/blob/master/image/service-available/:ssl-tools/download.sh
-RUN echo "path-include /usr/share/doc/krb5*" >> /etc/dpkg/dpkg.cfg.d/docker && apt-get -y update \
-    && /container/tool/add-service-available :ssl-tools \
-    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get -t buster-backports install -y --no-install-recommends \
+RUN echo "path-include /usr/share/doc/krb5*" >> /etc/dpkg/dpkg.cfg.d/docker
+RUN sed -i.bak '/buster-backports/s/^/#/' /etc/apt/sources.list
+RUN apt-get -y update \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     ca-certificates \
     curl \
-    ldap-utils=${OPENLDAP_PACKAGE_VERSION}\* \
+    ldap-utils \
     libsasl2-modules \
     libsasl2-modules-db \
     libsasl2-modules-gssapi-mit \
@@ -34,8 +35,8 @@ RUN echo "path-include /usr/share/doc/krb5*" >> /etc/dpkg/dpkg.cfg.d/docker && a
     libsasl2-modules-otp \
     libsasl2-modules-sql \
     openssl \
-    slapd=${OPENLDAP_PACKAGE_VERSION}\* \
-    slapd-contrib=${OPENLDAP_PACKAGE_VERSION}\* \
+    slapd \
+    slapd-contrib \
     krb5-kdc-ldap \
     && curl -o pqchecker.deb -SL http://www.meddeb.net/pub/pqchecker/deb/8/pqchecker_${PQCHECKER_VERSION}_amd64.deb \
     && echo "${PQCHECKER_MD5} *pqchecker.deb" | md5sum -c - \

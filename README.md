@@ -1,4 +1,9 @@
-# osixia/openldap
+# Description
+
+The whole project based on `osixia/openldap` and `nugaon/docker-openldap-with-kerberos`  repository.
+This is a Docker LDAP image, which is compatible with Kerberos servers by default.
+
+## osixia/openldap
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/osixia/openldap.svg)](https://hub.docker.com/r/osixia/openldap/)
 [![Docker Stars](https://img.shields.io/docker/stars/osixia/openldap.svg)](https://hub.docker.com/r/osixia/openldap/)
